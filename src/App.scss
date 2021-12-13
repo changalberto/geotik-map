@@ -5,8 +5,23 @@
   position: relative;
 
   .map {
-    width: 65%;
+    width: 60%;
     height: 100vh;
     position: relative;
+  }
+
+  aside {
+    padding: 20px 30px;
+
+    header {
+      h1 {
+        margin: 0 0 10px 0;
+      }
+
+      em {
+        display: block;
+        margin-bottom: 10px;
+      }
+    }
   }
 }

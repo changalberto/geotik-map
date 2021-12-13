@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { MAPBOX_TOKEN } from 'constants/environment'
 import { GeoData } from 'services/GeoData'
 import Map from 'components/Map'
+import RadialStackedBars from 'components/RadialStackedBars'
 
 // Styles
 import './App.scss'
@@ -55,6 +56,25 @@ function App() {
           />
         )}
       </div>
+      <aside>
+        <header>
+          <h1>Impared Car Accidents</h1>
+          <em>Washington DC, 2010-2014</em>
+        </header>
+        <div className="filter-group">
+          <select name="neighborhood">
+            <option value={null} selected disabled>
+              Select
+            </option>
+          </select>
+          <select name="year">
+            <option value={null} selected disabled>
+              Select
+            </option>
+          </select>
+        </div>
+        <RadialStackedBars />
+      </aside>
     </div>
   )
 }

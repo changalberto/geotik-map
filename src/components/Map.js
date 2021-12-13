@@ -9,6 +9,7 @@ import {
 import { GeoJsonLayer } from '@deck.gl/layers'
 import DeckGL from '@deck.gl/react'
 import { StaticMap } from 'react-map-gl'
+import { isNull } from 'lodash'
 
 // Source Imports
 import * as MapUtils from 'utils/map-utils'
@@ -98,7 +99,7 @@ const Map = ({
   }
 
   const getTotalOrNA = (value) => {
-    return value === null ? 'N/A' : value
+    return isNull(value) ? 'N/A' : value
   }
 
   const layers = [
@@ -120,7 +121,7 @@ const Map = ({
     }),
 
     // Extruded Polygons Layer
-    selectedFeatureId &&
+    !isNull(selectedFeatureId) &&
       new GeoJsonLayer({
         id: 'extruded-polygons-layer',
         data: _filterFeatureById(selectedFeatureId),
@@ -129,10 +130,11 @@ const Map = ({
         filled: true,
         extruded: true,
         wireframe: true,
-        getElevation: ({ properties }) => Math.max(properties?.total, 1) * 25, // Accument elevation by 25 times for extrution emphasis
+        getElevation: ({ properties }) =>
+          Math.max(properties?.total || 0, 1) * 25, // Accument elevation by 25 times for extrution emphasis
         getFillColor: ({ properties }) =>
           MapUtils.colorScale(properties?.total, _maxTotal),
-        getLineColor: [255, 255, 255],
+        getLineColor: [0, 0, 0],
         material,
         pickable: true,
       }),
