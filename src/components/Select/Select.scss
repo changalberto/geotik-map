@@ -1,0 +1,24 @@
+.select {
+  display: inline-block;
+  position: relative;
+
+  select {
+    padding: 5px 12px;
+    appearance: none;
+  }
+
+  &:after {
+    $size: 3px;
+    $thickness: 2px;
+    content: '';
+    border: solid #000;
+    border-width: 0 $thickness $thickness 0;
+    display: inline-flex;
+    padding: $size;
+    transform: rotate(45deg);
+    position: absolute;
+    top: calc(50% - $size * 2);
+    right: 10px;
+    z-index: 10;
+  }
+}
