@@ -4,26 +4,22 @@ import PropTypes from 'prop-types'
 import './Select.scss'
 
 const Select = ({
-  name = '[name]',
-  options = [],
-  placeholder = 'Select an option',
-  onChange = () => {},
-  selected = null,
-  disabled = false,
+  name,
+  options,
+  placeholder,
+  onChange,
+  selected,
+  disabled,
   ...props
 }) => {
   const Options = useMemo(
     () =>
       options.map(({ value, label }) => (
-        <option
-          key={value}
-          value={value}
-          {...(selected === value ? { selected: true } : {})}
-        >
+        <option key={value} value={`${value}`}>
           {label}
         </option>
       )),
-    [options, selected]
+    [options]
   )
 
   const _handleChange = (e) => {
@@ -36,12 +32,9 @@ const Select = ({
         name={name}
         onChange={_handleChange}
         {...(disabled ? { disabled } : {})}
+        value={`${selected}`}
       >
-        {placeholder && (
-          <option value={null} selected disabled>
-            {placeholder}
-          </option>
-        )}
+        {placeholder && <option disabled>{placeholder}</option>}
         {Options}
       </select>
     </div>
@@ -55,12 +48,17 @@ Select.propTypes = {
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       label: PropTypes.string,
-      selected: PropTypes.bool,
     })
   ),
-  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  selected: PropTypes.any,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
+}
+
+Select.defaultProps = {
+  name: '[name]',
+  options: [],
+  onChange: () => {},
 }
 
 export default Select

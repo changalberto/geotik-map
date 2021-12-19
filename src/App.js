@@ -25,9 +25,7 @@ function App() {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    console && console.log('imparedVehiclesData', imparedVehiclesData)
-  }, [imparedVehiclesData])
+  // Utility Methods
 
   // Replaces properties of total null with argument total and returns new array
   // const _getReplacedNullTotalsWith = (geoJSON, total = 0) => {
@@ -43,8 +41,8 @@ function App() {
 
   // const _getNeighborhoodOptions = () => {}
 
-  // Utility Methods
-  const getYearOptionsByFeatureId = useCallback(
+  // Finds all available years within feature properties and generates array of year options
+  const _getYearOptionsByFeatureId = useCallback(
     (id) => {
       if (!isNull(id)) {
         const { features } = imparedVehiclesData
@@ -57,14 +55,14 @@ function App() {
           const years = Object.keys(properties).filter((key) =>
             key.startsWith('20')
           )
-          console.log('years', years)
+
           return [
             { value: null, label: 'All' },
             ...years.map((year) => ({ value: year, label: year })),
           ]
         }
       }
-      return [{ value: null, label: 'None' }]
+      return [{ value: null, label: 'All' }]
     },
     [imparedVehiclesData, selectedFeatureId]
   )
@@ -75,14 +73,16 @@ function App() {
   }
 
   const _handleNeighboorhoodChange = (featureId) => {
-    setSelectedFeatureId(+featureId)
+    setSelectedFeatureId(featureId ? +featureId : null)
     setSelectedYear(null)
-    console.log('_handleNeighboorhoodChange', featureId)
   }
 
-  const _handleYearChange = (year) => {
-    setSelectedYear(year)
-    console.log('_handleYearChange', year)
+  const _handleYearChange = (year) => setSelectedYear(year)
+
+  const _handleClearFilters = (e) => {
+    e.preventDefault()
+    setSelectedFeatureId(null)
+    setSelectedYear(null)
   }
 
   // Memoized Consts
@@ -90,16 +90,19 @@ function App() {
     if (imparedVehiclesData) {
       const { features } = imparedVehiclesData
 
-      return features.map(({ id, properties }) => ({
-        value: id,
-        label: properties?.name,
-      }))
+      return [
+        { value: null, label: 'All' },
+        ...features.map(({ id, properties }) => ({
+          value: id,
+          label: properties?.name,
+        })),
+      ]
     }
   }, [imparedVehiclesData])
 
   const selectedYearOptions = useMemo(
-    () => getYearOptionsByFeatureId(selectedFeatureId),
-    [getYearOptionsByFeatureId, selectedFeatureId]
+    () => _getYearOptionsByFeatureId(selectedFeatureId),
+    [_getYearOptionsByFeatureId, selectedFeatureId]
   )
 
   return (
@@ -139,6 +142,14 @@ function App() {
               disabled={isNull(selectedFeatureId)}
             />
           )}
+
+          <button
+            className="button filter-group__clear-button"
+            disabled={isNull(selectedFeatureId) && isNull(selectedFeatureId)}
+            onClick={_handleClearFilters}
+          >
+            Clear All
+          </button>
         </div>
         <RadialStackedBars />
       </aside>
