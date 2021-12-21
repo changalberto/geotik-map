@@ -11,9 +11,12 @@
   }
 
   aside {
+    width: 40%;
     padding: 20px 30px;
 
     header {
+      margin-bottom: 30px;
+
       h1 {
         margin: 0 0 10px 0;
       }
@@ -26,7 +29,21 @@
   }
 
   .filter-group {
+    margin-bottom: 50px;
     display: flex;
+    align-items: flex-end;
     gap: 10px;
+
+    .button {
+      display: inline-flex;
+      height: 28px;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #666;
+
+      &:disabled {
+        border-color: #eee;
+      }
+    }
   }
 }

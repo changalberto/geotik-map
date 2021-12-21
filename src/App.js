@@ -115,6 +115,7 @@ function App() {
             height="100%"
             token={MAPBOX_TOKEN}
             selectedFeatureId={selectedFeatureId}
+            selectedYear={selectedYear}
             onPolygonClick={_handlePolygonClick}
           />
         )}
@@ -127,6 +128,7 @@ function App() {
         <div className="filter-group">
           {neighborhoodOptions && (
             <Select
+              label="Neighborhood"
               name="neighborhood"
               options={neighborhoodOptions}
               onChange={_handleNeighboorhoodChange}
@@ -135,6 +137,7 @@ function App() {
           )}
           {neighborhoodOptions && (
             <Select
+              label="Year"
               name="year"
               options={selectedYearOptions}
               onChange={_handleYearChange}
@@ -151,7 +154,15 @@ function App() {
             Clear All
           </button>
         </div>
-        <RadialStackedBars />
+
+        {imparedVehiclesData && (
+          <RadialStackedBars
+            data={imparedVehiclesData?.features}
+            selectedFeatureId={selectedFeatureId}
+            selectedYear={selectedYear}
+            onStackSelected={_handleNeighboorhoodChange}
+          />
+        )}
       </aside>
     </div>
   )

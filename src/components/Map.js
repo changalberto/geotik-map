@@ -54,10 +54,11 @@ const initilaViewState = {
 const Map = ({
   data,
   token,
-  width = '100%',
-  height = '100vh',
-  selectedFeatureId = null,
-  onPolygonClick = (info) => {},
+  width,
+  height,
+  selectedFeatureId,
+  selectedYear,
+  onPolygonClick,
   ...props
 }) => {
   const _maxTotal = Math.max(
@@ -131,7 +132,12 @@ const Map = ({
         extruded: true,
         wireframe: true,
         getElevation: ({ properties }) =>
-          Math.max(properties?.total || 0, 1) * 25, // Accument elevation by 25 times for extrution emphasis
+          Math.max(
+            selectedYear && selectedYear !== 'null'
+              ? properties?.[selectedYear]
+              : properties?.total || 0,
+            1
+          ) * 60, // Accument elevation by 60 times for extrution emphasis
         getFillColor: ({ properties }) =>
           MapUtils.colorScale(properties?.total, _maxTotal),
         getLineColor: [0, 0, 0],
@@ -164,6 +170,14 @@ const Map = ({
       </MapView>
     </DeckGL>
   )
+}
+
+Map.defaultProps = {
+  width: '100%',
+  height: '100vh',
+  selectedFeatureId: null,
+  selectedYear: null,
+  onPolygonClick: (info) => {},
 }
 
 export default Map

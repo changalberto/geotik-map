@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import './Select.scss'
 
 const Select = ({
+  label,
   name,
   options,
   placeholder,
@@ -28,6 +29,7 @@ const Select = ({
 
   return (
     <div className="select">
+      {label && <label>{label}</label>}
       <select
         name={name}
         onChange={_handleChange}
@@ -42,6 +44,7 @@ const Select = ({
 }
 
 Select.propTypes = {
+  label: PropTypes.string,
   name: PropTypes.string,
   placeholder: PropTypes.string,
   options: PropTypes.arrayOf(
