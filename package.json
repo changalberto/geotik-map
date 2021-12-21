@@ -1,7 +1,7 @@
 {
   "name": "geotik",
   "version": "0.1.0",
-  "homepage": "https://changalberto.github.io/geotik",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@deck.gl/layers": "^8.6.5",
