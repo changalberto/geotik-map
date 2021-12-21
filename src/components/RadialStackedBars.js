@@ -65,12 +65,13 @@ const RadialStackedBars = ({
 
   useEffect(() => {
     if (svg) {
+      if (!selectedFeatureId) {
+        svg.selectAll(`path`).style('opacity', 1)
+        return
+      }
       const className = `class-${selectedFeatureId}`
       svg.selectAll(`path.${className}`).style('opacity', 1)
       svg.selectAll(`path:not(.${className})`).style('opacity', 0.3)
-    }
-    if (!selectedFeatureId) {
-      svg.selectAll(`path`).style('opacity', 1)
     }
   }, [svg, selectedFeatureId])
 
